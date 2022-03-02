@@ -1,8 +1,13 @@
+from datetime import datetime
+from pydoc import cli
+import sys
+from time import time
 import discord
 from discord.ext import commands
+import os
 import DiscordUtils
 import random
-import time
+
 
 
 # client = discord.Client(activity=discord.Game(name='my Game'))
@@ -69,6 +74,8 @@ async def loop(message,amount=10):
 
 @client.command()
 async def tagall(ctx,*,txt):
+  """Send message to @everyone."""
+
   await ctx.message.delete()
   await ctx.send(f'>>> @everyone\n{txt}\n')
 
@@ -139,14 +146,19 @@ async def unban(ctx, *, member):
 
 @client.command()
 async def join(ctx):
+  """Make the bot join the channel."""
+
   await ctx.author.voice.channel.connect()
 
 @client.command()
 async def leave(ctx):
+  """Make the bot leave rhe channel."""
+
   await ctx.voice_client.disconnect()
 
 @client.command()
 async def play(ctx, *, url):
+  """Make the bot play a song."""
   player = music.get_player(guild_id=ctx.guild.id)
   if not player:
     player = music.create_player(ctx, ffmpeg_error_betterfix=True)
@@ -170,14 +182,32 @@ async def roles(ctx):
         result += role.name + ", "
     await ctx.send(result)
 
-@client.command()
-async def ping(ctx):
-    """Pings the bot and gets a response time."""
-    pingtime = time.time()
-    pingms = await ctx.send("*Pinging...*")
-    ping = (time.time() - pingtime) * 1000
-    await client.edit_message(pingms, "**Pong!** :ping_pong:  The ping time is `%dms`" % ping)
-    print("Pinged bot with a response time of %dms." % ping)
-    # logger.info("Pinged bot with a response time of %dms." % ping)
+@client.command(aliases=['user'])
+async def info(ctx, user: discord.Member = None):
+	
+  """Gets info on a member, such as their ID."""
+  if user == None:
+    user = ctx.author
+  embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
+  embed.add_field(name="Userame:", value=user)
+  embed.add_field(name="ID:", value=user.id)
+  embed.add_field(name="Profile:", value=user.mention)
+  embed.add_field(name="Joined:", value=user.joined_at.strftime("%b %d, %Y"))
+  embed.add_field(name="Registered:", value=user.created_at.strftime("%b %d, %Y"))
+  embed.add_field(name="Highest role:", value=user.top_role)
+  embed.set_thumbnail(url=user.avatar_url)
+  await ctx.send(embed=embed)
+
+@client.command(aliases=['game', 'presence'])
+async def setgame(ctx, *args):
+    """Sets the 'Playing' status."""
+
+    if ctx.message.author.guild_permissions.administrator:
+        setgame = ' '.join(args)
+        await client.change_presence(status=discord.Status.online, activity=discord.Game(setgame))
+        await ctx.send(":ballot_box_with_check: Game name set to: `" + setgame + "`")
+        print("Game set to: `" + setgame + "`")
+    else:
+        await ctx.send("You don't have permission")
 
 client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw._PtkGJRzfpK07kPGJ6MgmNEuSWU')
