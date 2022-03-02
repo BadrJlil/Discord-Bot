@@ -30,7 +30,6 @@ async def on_message(message):
 
   channel = client.get_channel(948514702915428352)
 
-
   if message.author.id == 438657626910228481 :
     msg= str(message.author.name) + ' : ' + str(message.content)
   else : 
@@ -40,12 +39,9 @@ async def on_message(message):
   await client.process_commands(message)
 
 
-
-
 @client.command(aliases = ['Hey','Hi','Hello','hey','hi'] )
 async def hello(message):
   await message.channel.send('Hey buddy!')
-
 
 
 @client.command()
@@ -80,12 +76,12 @@ async def avatar(ctx, member : discord.Member = None):
 
 @client.command()
 async def advise(ctx):
-  advises=["What you're supposed to do when you don't like a thing is change it. If you can't change it, change the way you think about it. Don't complain,"
+  advises=[
   "Try to be a rainbow in someone's cloud.",
   "Never miss a good chance to shut up.",
-  "If a man will begin with certainties, he shall end in doubts; but if he will be content to begin with doubts, he shall end in certainties.",
   "We cannot change the cards we are dealt, just how we play the hand.",
-  "Never ruin an apology with an excuse."]
+  "Never ruin an apology with an excuse."
+  ]
   await ctx.send(random.choice(advises))
 
 @client.command()
