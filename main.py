@@ -4,7 +4,6 @@ import sys
 from time import time
 import discord
 from discord.ext import commands
-import os
 import DiscordUtils
 import random
 
