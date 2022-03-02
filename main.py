@@ -7,30 +7,12 @@ from discord.ext import commands
 import DiscordUtils
 import random
 
-
-
-# client = discord.Client(activity=discord.Game(name='my Game'))
-
 client = commands.Bot(command_prefix = '.')
 music = DiscordUtils.Music()
 
 @client.event
 async def on_ready():
   print('Oh Shit is now connected')
-  # Playing
-  # await client.change_presence(activity=discord.Game(name="a game"))
-  
-  # Streaming
-  # await client.change_presence(activity=discord.Streaming(name="My Stream", url=my_twitch_url))
-  
-  # Listening
-  # await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="a song"))
-
-  # Watching
-  # await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="OnlyFans"))
-
-  # Changing status
-  # await client.change_presence(status=discord.Status.idle)
 
 @client.command(aliases = ['cls'] ) 
 async def clear(ctx, amount=1000):
