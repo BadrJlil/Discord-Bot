@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydoc import cli
-import sys
+import os
 from time import time
 import discord
 from discord.ext import commands
@@ -245,4 +245,4 @@ async def setoffline(ctx):
         await ctx.send("You don't have permission")
 
 
-client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw._PtkGJRzfpK07kPGJ6MgmNEuSWU')
+client.run(os.getenv('TOKEN'))
