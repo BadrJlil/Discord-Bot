@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import DiscordUtils
 import random
-
+import time
 
 
 # client = discord.Client(activity=discord.Game(name='my Game'))
@@ -170,6 +170,14 @@ async def roles(ctx):
         result += role.name + ", "
     await ctx.send(result)
 
-
+@client.command()
+async def ping(ctx):
+    """Pings the bot and gets a response time."""
+    pingtime = time.time()
+    pingms = await ctx.send("*Pinging...*")
+    ping = (time.time() - pingtime) * 1000
+    await client.edit_message(pingms, "**Pong!** :ping_pong:  The ping time is `%dms`" % ping)
+    print("Pinged bot with a response time of %dms." % ping)
+    # logger.info("Pinged bot with a response time of %dms." % ping)
 
 client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw._PtkGJRzfpK07kPGJ6MgmNEuSWU')
