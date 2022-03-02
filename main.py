@@ -197,16 +197,72 @@ async def info(ctx, user: discord.Member = None):
   embed.set_thumbnail(url=user.avatar_url)
   await ctx.send(embed=embed)
 
-@client.command(aliases=['game', 'presence'])
-async def setgame(ctx, *args):
+@client.command()
+async def setplay(ctx, *args):
     """Sets the 'Playing' status."""
 
     if ctx.message.author.guild_permissions.administrator:
         setgame = ' '.join(args)
-        await client.change_presence(status=discord.Status.online, activity=discord.Game(setgame))
+        await client.change_presence(activity=discord.Game(setgame))
         await ctx.send(":ballot_box_with_check: Game name set to: `" + setgame + "`")
-        print("Game set to: `" + setgame + "`")
     else:
         await ctx.send("You don't have permission")
 
+@client.command()
+async def setwatch(ctx, *args):
+    """Sets the 'Watching' status."""
+
+    if ctx.message.author.guild_permissions.administrator:
+        setgame = ' '.join(args)
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=setgame))
+        await ctx.send(":ballot_box_with_check: Watching set to: `" + setgame + "`")
+    else:
+        await ctx.send("You don't have permission")
+
+@client.command()
+async def setlisten(ctx, *args):
+    """Sets the 'Listening' status."""
+
+    if ctx.message.author.guild_permissions.administrator:
+        setgame = ' '.join(args)
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=setgame))
+        await ctx.send(":ballot_box_with_check: Listening set to: `" + setgame + "`")
+    else:
+        await ctx.send("You don't have permission")
+
+@client.command()
+async def setidle(ctx):
+    """Change the status."""
+    if ctx.message.author.guild_permissions.administrator:
+        await client.change_presence(status=discord.Status.idle)
+        await ctx.send(":ballot_box_with_check: Status set to: `idle`")
+    else:
+        await ctx.send("You don't have permission")
+
+@client.command()
+async def setdnd(ctx):
+    """Change the status."""
+    if ctx.message.author.guild_permissions.administrator:
+        await client.change_presence(status=discord.Status.do_not_disturb)
+        await ctx.send(":ballot_box_with_check: Status set to: `Do Not Disturb`")
+    else:
+        await ctx.send("You don't have permission")
+
+@client.command()
+async def setonline(ctx):
+    """Change the status."""
+    if ctx.message.author.guild_permissions.administrator:
+        await client.change_presence(status=discord.Status.online)
+        await ctx.send(":ballot_box_with_check: Status set to: `Online`")
+    else:
+        await ctx.send("You don't have permission")
+
+@client.command()
+async def setoffline(ctx):
+    """Change the status."""
+    if ctx.message.author.guild_permissions.administrator:
+        await client.change_presence(status=discord.Status.invisible)
+        await ctx.send(":ballot_box_with_check: Status set to: `Invisible`")
+    else:
+        await ctx.send("You don't have permission")
 client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw._PtkGJRzfpK07kPGJ6MgmNEuSWU')
