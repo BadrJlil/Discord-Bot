@@ -1,4 +1,8 @@
+// Install by pip
 discord.py
 youtube-dl
 PyNaCl
 DiscordUtils
+
+// Download and add it to path
+ffmpeg
