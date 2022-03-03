@@ -1,8 +1,3 @@
-from datetime import datetime
-from pydoc import cli
-import os
-import re
-from time import time
 import discord
 from discord.ext import commands
 import DiscordUtils
@@ -46,7 +41,7 @@ async def hello(message):
 
 
 @client.command()
-async def loop(message,amount=10):
+async def loopmessage(message,amount=10):
   for i in range (1,amount+1):
     await message.send('This is Line {}'.format(i))
 
@@ -188,6 +183,25 @@ async def resume(ctx):
   song = await player.resume()
   await ctx.send(f'Resumed `{song.name}`')
 
+@client.command()
+async def loop(ctx):
+  player = music.get_player(guild_id=ctx.guild.id)
+  song = await player.toggle_song_loop()
+  if song.is_looping:
+    return await ctx.send(f'`{song.name}` is looping')
+  else : return await ctx.send(f'`{song.name}` is not looping')
+
+@client.command()
+async def nowplaying(ctx):
+  player = music.get_player(guild_id=ctx.guild.id)
+  song = player.now_playing()
+  await ctx.send(song.name)
+
+@client.command()
+async def remove(ctx, index):  
+    player = music.get_player(guild_id=ctx.guild.id)
+    song = await player.remove_from_queue(int(index)-1)
+    await ctx.send(f'`{song.name}` Removed from queue')
 
 @client.command()
 async def roles(ctx):
