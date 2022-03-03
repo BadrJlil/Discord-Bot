@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydoc import cli
 import os
+import re
 from time import time
 import discord
 from discord.ext import commands
@@ -56,16 +57,39 @@ async def tagall(ctx,*,txt):
   await ctx.message.delete()
   await ctx.send(f'>>> @everyone\n{txt}\n')
 
-@client.command(aliases = ['ui'] )
-async def userinfo(message,member : discord.Member = None):
 
-  if member == None :
-    member = message.author
- 
-  # user = await client.fetch_user(member)
-  memberAvatar = member.avatar_url
-  await message.send(f'The user: <@{member}>\nName: {member.name}\nUsername: {member.id}\nID: {member}')
-  await message.send(memberAvatar)
+
+
+@client.command(aliases = ['memberinfo'] )
+async def member(ctx, *,user : discord.Member = None):
+  """Gets info on a member, such as their ID."""
+  if user == None:
+    user = ctx.author
+  embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
+  embed.add_field(name="Userame:", value=user)
+  embed.add_field(name="ID:", value=user.id)
+  embed.add_field(name="Profile:", value=user.mention)
+  embed.add_field(name="Registered:", value=user.created_at.strftime("%b %d, %Y"))
+  embed.add_field(name="Joined:", value=user.joined_at.strftime("%b %d, %Y"))
+  embed.add_field(name="Highest role:", value=user.top_role)
+  embed.set_thumbnail(url=user.avatar_url)
+  await ctx.send(embed=embed)
+
+@client.command(aliases = ['userinfo'] )
+async def user(ctx, *,usr = None):
+  """Gets info on a user, such as their ID."""
+  if usr == None :
+    await ctx.send("Please add user's ID")
+    return
+  user = await client.fetch_user(usr)
+  embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
+  embed.add_field(name="Userame:", value=user)
+  embed.add_field(name="ID:", value=user.id)
+  embed.add_field(name="Profile:", value=user.mention)
+  embed.add_field(name="Registered:", value=user.created_at.strftime("%b %d, %Y"))
+  embed.set_thumbnail(url=user.avatar_url)
+  await ctx.send(embed=embed)
+
 
 @client.command()
 async def avatar(ctx, member : discord.Member = None):
@@ -159,23 +183,8 @@ async def roles(ctx):
         result += role.name + ", "
     await ctx.send(result)
 
-@client.command(aliases=['user'])
-async def info(ctx, user: discord.Member = None):
-	
-  """Gets info on a member, such as their ID."""
-  if user == None:
-    user = ctx.author
-  embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
-  embed.add_field(name="Userame:", value=user)
-  embed.add_field(name="ID:", value=user.id)
-  embed.add_field(name="Profile:", value=user.mention)
-  embed.add_field(name="Joined:", value=user.joined_at.strftime("%b %d, %Y"))
-  embed.add_field(name="Registered:", value=user.created_at.strftime("%b %d, %Y"))
-  embed.add_field(name="Highest role:", value=user.top_role)
-  embed.set_thumbnail(url=user.avatar_url)
-  await ctx.send(embed=embed)
 
-@client.command()
+@client.command(aliases = ['setplaying'] )
 async def setplay(ctx, *args):
     """Sets the 'Playing' status."""
 
@@ -186,7 +195,7 @@ async def setplay(ctx, *args):
     else:
         await ctx.send("You don't have permission")
 
-@client.command()
+@client.command(aliases = ['setwatching'] )
 async def setwatch(ctx, *args):
     """Sets the 'Watching' status."""
 
@@ -197,7 +206,7 @@ async def setwatch(ctx, *args):
     else:
         await ctx.send("You don't have permission")
 
-@client.command()
+@client.command(aliases = ['setlistening'] )
 async def setlisten(ctx, *args):
     """Sets the 'Listening' status."""
 
