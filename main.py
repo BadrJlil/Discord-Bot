@@ -1,7 +1,9 @@
+from msilib.schema import Component
 import discord
 from discord.ext import commands
 import DiscordUtils
 import random
+from discord_components import *
 
 client = commands.Bot(command_prefix = '.')
 music = DiscordUtils.Music()
@@ -9,6 +11,7 @@ music = DiscordUtils.Music()
 @client.event
 async def on_ready():
   print('Oh Shit is now connected')
+  
 
 @client.command(aliases = ['cls'] ) 
 async def clear(ctx, amount=1000):
@@ -293,5 +296,7 @@ async def getbans(ctx):
 		x = '\n'.join([str(y.user) for y in x])
 		embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
 		return await ctx.send(embed=embed)
+
+
 
 client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw.WhyiEIDCjK28YhqhMx0Vav72c30')
