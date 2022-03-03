@@ -245,4 +245,4 @@ async def setoffline(ctx):
         await ctx.send("You don't have permission")
 
 
-client.run(os.getenv('TOKEN'))
+client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw.WhyiEIDCjK28YhqhMx0Vav72c30')
