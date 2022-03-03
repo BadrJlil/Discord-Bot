@@ -132,10 +132,7 @@ async def unban(ctx, *, member):
     return
 
   banned_users = await ctx.guild.bans()
-  print(f'here is banned users\n {banned_users}')
   member_name, member_discriminator = member.split('#')
-  print(f'here is member_name\n {member_name}')
-  print(f'member_discriminator\n {member_discriminator}')
   for ban_entry in banned_users :
     user = ban_entry.user
 
@@ -253,5 +250,15 @@ async def setoffline(ctx):
     else:
         await ctx.send("You don't have permission")
 
+
+@client.command()
+async def getbans(ctx):
+	"""Lists all banned users on the current server."""
+	
+	if ctx.message.author.guild_permissions.ban_members:
+		x = await ctx.message.guild.bans()
+		x = '\n'.join([str(y.user) for y in x])
+		embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
+		return await ctx.send(embed=embed)
 
 client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw.WhyiEIDCjK28YhqhMx0Vav72c30')
