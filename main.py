@@ -1,9 +1,7 @@
-from msilib.schema import Component
 import discord
 from discord.ext import commands
 import DiscordUtils
 import random
-from discord_components import *
 
 client = commands.Bot(command_prefix = '.')
 music = DiscordUtils.Music()
