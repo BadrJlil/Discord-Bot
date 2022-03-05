@@ -22,6 +22,8 @@ async def clear(ctx, amount=1000):
 @client.event
 async def on_message(message):
 
+  '''
+  """Log"""
   if message.channel.id == 948514702915428352  and message.content != '.cls':
     return
 
@@ -31,8 +33,9 @@ async def on_message(message):
     msg= str(message.author.name) + ' : ' + str(message.content)
   else : 
     msg= f'<@{message.author.id}> : ' + str(message.content)  
-  
+ 
   await channel.send(msg)
+  '''
   await client.process_commands(message)
 
 
@@ -170,6 +173,14 @@ async def play(ctx, *, url):
 @client.command()
 async def queue(ctx):
   player = music.get_player(guild_id=ctx.guild.id)
+  if not player:
+    await ctx.send("Queue is empty")
+    print("1")
+    return
+  elif not len(player.current_queue()) > 0 :
+    await ctx.send("Queue is empty")
+    print("2")
+    return
   await ctx.send(f"{' | '.join([song.name for song in player.current_queue()])}")
 
 @client.command()
@@ -177,6 +188,22 @@ async def pause(ctx):
   player = music.get_player(guild_id=ctx.guild.id)
   song = await player.pause()
   await ctx.send(f'Paused `{song.name}`')
+
+@client.command()
+async def skip(ctx):
+  player = music.get_player(guild_id=ctx.guild.id) 
+  if not len(player.current_queue()) > 1 :
+    await ctx.send("Can't skip because the queue is empty")
+    return 
+  song = await player.skip()
+  await ctx.send(f'Skipped')
+  
+
+@client.command()
+async def stop(ctx):
+  player = music.get_player(guild_id=ctx.guild.id) 
+  await ctx.send(f'Stopped')
+  song = await player.stop()
 
 @client.command()
 async def resume(ctx):
@@ -295,6 +322,31 @@ async def getbans(ctx):
 		embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
 		return await ctx.send(embed=embed)
 
+
+
+@client.command()
+async def verify(ctx,*, userid):
+  user = await client.fetch_user(userid)
+
+  messages = {2:"Member's age: ",3:"Education",4:"Skills"}
+  answers={}
+  await ctx.send(f"Member's Name")
+  message =  await client.wait_for('message', check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+  answers[1] = message.content
+  i = 1
+  while message.content != 'cancel' and i<4:
+    i+=1
+    await ctx.send(f"{messages[i]}")
+    message =  await client.wait_for('message', check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+    answers[i] = message.content
+    
+  
+  await ctx.channel.purge(limit=i*2+1)
+  if message.content == 'cancel':
+    return
+  await ctx.send(f"‎\n============================================\nFirst Name: {answers[1]}\nUser ID: {userid}\nMember's username: {user.mention}\nAge: {answers[2]}\nStudying {answers[3]}\nSkills: {answers[4]}\n============================================\n‎"
+  
+  )
 
 
 client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw.WhyiEIDCjK28YhqhMx0Vav72c30')
