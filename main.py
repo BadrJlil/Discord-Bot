@@ -344,7 +344,7 @@ async def verify(ctx,*, userid):
   await ctx.channel.purge(limit=i*2+1)
   if message.content == 'cancel':
     return
-  await ctx.send(f"‎\n============================================\nFirst Name: {answers[1]}\nUser ID: {userid}\nMember's username: {user.mention}\nAge: {answers[2]}\nStudying {answers[3]}\nSkills: {answers[4]}\n============================================\n‎"
+  await ctx.send(f"‎\n============================================\nMember: {user.mention}\nFirst Name: {answers[1]}\nUser ID: {userid}\nAge: {answers[2]}\nStudying {answers[3]}\nSkills: {answers[4]}\n============================================\n‎"
   
   )
 
