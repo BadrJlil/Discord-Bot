@@ -349,4 +349,4 @@ async def verify(ctx,*, userid):
   )
 
 
-client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw.WhyiEIDCjK28YhqhMx0Vav72c30')
+client.run('OTQ4Mzc5Mzc1NzI2OTA3NDIy.Yh69Hw.IDk49yGvtkD8B0Kh0vdfEeBLXEQ')
